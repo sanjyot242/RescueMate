@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:rescuemate/route.dart' as route;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -37,13 +38,23 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {
+  PopupMenuButton(
+    itemBuilder: (BuildContext context) {
+      return [
+        PopupMenuItem(
+          child: ListTile(
+            leading: Icon(Icons.edit),
+            title: Text('Edit SOS Info'),
+            onTap: () {
               // Handle action
+              Navigator.pushNamed(context, route.editSosInfoScreen);
             },
           ),
-        ],
+        ),
+      ];
+    },
+  ),
+],
       ),
       body: Center(
         child: Column(

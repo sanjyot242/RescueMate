@@ -31,6 +31,8 @@ class _SosInfoScreenState extends State<SosInfoScreen> {
       String value = _emergencyContactControllers[i].text;
       await SharedPref.setEmergencyContact(key, value);
     }
+    // Save the count of emergency contacts
+    await SharedPref.setEmergencyContactCount('EmergencyContactCount', _emergencyContactControllers.length.toString());
   }
 
   @override
@@ -67,10 +69,10 @@ class _SosInfoScreenState extends State<SosInfoScreen> {
             ElevatedButton(
               onPressed: _emergencyContactControllers.length < _maxEmergencyContacts
                   ? () {
-                      setState(() {
-                        _emergencyContactControllers.add(TextEditingController());
-                      });
-                    }
+                setState(() {
+                  _emergencyContactControllers.add(TextEditingController());
+                });
+              }
                   : null,
               child: Text('Add Emergency Contact'),
             ),

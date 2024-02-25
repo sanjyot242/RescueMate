@@ -7,8 +7,20 @@ class SharedPref {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  static Future<void> setEmergencyContact(String key, String value) async {
+  static Future setEmergencyContact(String key, String value) async {
     await _preferences.setString(key, value);
+  }
+
+  static Future setEmergencyContactCount(String key, String value) async {
+    await _preferences.setString(key, value);
+  }
+  
+  static String? getEmergencyContactCount(String key) {
+    return _preferences.getString(key);
+  }
+
+  static String? getEmergencyContact(String key) {
+    return _preferences.getString(key);
   }
 
   static Set<String> getAllKeys() {
