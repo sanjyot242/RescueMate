@@ -23,6 +23,22 @@ class SharedPref {
     return _preferences.getString(key);
   }
 
+  static Future setLatitude(String key, String value) async {
+    await _preferences.setString(key, value);
+  }
+
+  static String? getLatitude(String key) {
+    return _preferences.getString(key);
+  }
+
+  static Future setLongtitude(String key, String value) async {
+    await _preferences.setString(key, value);
+  }
+
+  static String? getLongtitude(String key) {
+    return _preferences.getString(key);
+  }
+
   static Set<String> getAllKeys() {
     Set<String> keys = _preferences.getKeys();
     return keys;
