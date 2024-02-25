@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:rescuemate/route.dart' as route;
+import 'package:rescuemate/util.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      onWillPop: onWillPop,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(180, 0, 255, 1),
@@ -85,14 +87,14 @@ class _MainScreenState extends State<MainScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  List<dynamic> jsonData = await fetchData();
-                  print(jsonData);
+                  Navigator.pushNamed(context, route.viewHospitalScreen);
                 },
                 child: Text('Find Hospitals Nearby'),
               ),
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
+                  Navigator.pushNamed(context, route.viewDispensaryScreen);
                 },
                 child: Text('Find Dispensaries Nearby'),
               ),
@@ -100,10 +102,9 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      onWillPop: onWillPop,
     );
   }
-  
+
   Future<List<dynamic>> fetchData() async {
     final response = await http.get(Uri.parse('http://localhost:3000/api/nearby'));
     print(response.body);

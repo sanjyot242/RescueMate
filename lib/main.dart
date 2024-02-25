@@ -20,6 +20,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(fontFamily: 'Lato'),
         restorationScopeId: "root",
         onGenerateRoute: route.controller,
-        home: MainScreen());
+        home: SplashScreen());
   }
 }

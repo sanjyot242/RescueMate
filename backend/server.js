@@ -54,7 +54,7 @@ async function placeSearch(latitude, longitude , queryValue ) {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',
-                    Authorization: 'fsq3Xez9snmSagKNVPEreoskNrNKqjnAnOuHQXmch/Al04U=' // Replace with your actual token
+                    Authorization: 'fsq3Xez9snmSagKNVPEreoskNrNKqjnAnOuHQXmch/Al04U='
                 }
             }
         );
@@ -64,14 +64,16 @@ async function placeSearch(latitude, longitude , queryValue ) {
     return formatFoursquareData(data.results);
     } catch (err) {
         console.error(err);
-        throw err; // Re-throw the error for handling in the Express route
+        throw err;
     }
 }
 
 app.get('/api/nearby', async (req, res) => {
     try {
-        //const { latitude, longitude , type } = req.query;
-        console.log("Executed")
+        /*console.log(req)
+        console.log(req.query)
+        const { latitude, longitude , type } = req.query;
+        console.log("Executed")*/
         const latitude = 33.87029; 
         const longitude = -117.92534;
         const type = "hospital"
@@ -88,5 +90,3 @@ app.get('/api/nearby', async (req, res) => {
     }
 });
 
-
-//fsq3dKVDM9bTEpA9lumpgGeuoU7y2cn9Iy2RYsgO5pq1grk=
