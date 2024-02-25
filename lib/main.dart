@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rescuemate/route.dart' as route;
+import 'package:rescuemate/screens/main_screen.dart';
 import 'package:rescuemate/screens/sos_info_screen.dart';
 import 'package:rescuemate/shared-preferences.dart';
 
@@ -19,6 +20,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(fontFamily: 'Lato'),
         restorationScopeId: "root",
         onGenerateRoute: route.controller,
-        home: SplashScreen());
+        home: MainScreen());
   }
 }

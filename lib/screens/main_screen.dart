@@ -113,8 +113,8 @@ class _MainScreenState extends State<MainScreen> {
    // Function to fetch data from an endpoint
   // Function to fetch data from an endpoint
   Future<List<dynamic>> fetchData() async {
-    final response = await http.get(Uri.parse('http://localhost:3000/api/hospitals/nearby2'));
-    
+    final response = await http.get(Uri.parse('http://localhost:3000/api/nearby'));
+    print(response.body);
     if (response.statusCode == 200) {
       // If the server returns a 200 OK response, parse the JSON as a list
       return json.decode(response.body);

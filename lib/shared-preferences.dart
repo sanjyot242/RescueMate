@@ -39,8 +39,26 @@ class SharedPref {
     return _preferences.getString(key);
   }
 
+  static Future setHospitalData(String key, String value) async {
+    await _preferences.setString(key, value);
+  }
+
+  static String? getHospitalData(String key) {
+    return _preferences.getString(key);
+  }
+
+  static Future setPharmacyData(String key, String value) async {
+    await _preferences.setString(key, value);
+  }
+
+  static String? getPharmacyData(String key) {
+    return _preferences.getString(key);
+  }
+
   static Set<String> getAllKeys() {
     Set<String> keys = _preferences.getKeys();
     return keys;
   }
+
+  
 }

@@ -3,6 +3,7 @@ import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rescuemate/route.dart' as route;
 import 'package:rescuemate/shared-preferences.dart';
+import 'package:rescuemate/util.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -45,6 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
     print('Current Location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
 
     // Now you can navigate to the next screen (SOSInfoScreen)
+    ApiUtil.fetchData2();
     Navigator.pushNamed(context, route.sosInfoScreen);
   }
 
@@ -56,10 +58,10 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     // Request phone permission
-    var phoneStatus = await Permission.phone.request();
+    /*var phoneStatus = await Permission.phone.request();
     if (phoneStatus.isDenied) {
       _openPhonePermissionDeniedDialog();
-    }
+    }*/
   }
 
   @override

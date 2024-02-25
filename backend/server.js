@@ -71,10 +71,11 @@ async function placeSearch(latitude, longitude , queryValue ) {
 
 app.get('/api/nearby', async (req, res) => {
     try {
-       // const { latitude, longitude , type } = req.query;
+        //const { latitude, longitude , type } = req.query;
+        console.log("Executed")
         const latitude = 33.87029; 
         const longitude = -117.92534;
-        const type = "pharmacy"
+        const type = "hospital"
         if (!latitude || !longitude) {
             return res.status(400).json({ error: 'Latitude and longitude are required' });
         }
