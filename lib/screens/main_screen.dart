@@ -15,24 +15,24 @@ class _MainScreenState extends State<MainScreen> {
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(180, 0, 255, 1), // Using Neon Purple color
-          elevation: 0, // Remove shadow
+          backgroundColor: Color.fromRGBO(180, 0, 255, 1),
+          elevation: 0,
           title: Container(
-            height: 40, // Height of the search bar
-            padding: EdgeInsets.symmetric(horizontal: 16), // Padding for the search bar
+            height: 40,
+            padding: EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: Colors.white, // Background color of the search bar
-              borderRadius: BorderRadius.circular(20), // Rounded corners
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
               children: [
-                Icon(Icons.search), // Search icon on the left
-                SizedBox(width: 8), // Spacer between icon and text field
+                Icon(Icons.search),
+                SizedBox(width: 8),
                 Expanded(
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: 'Your Problem', // Placeholder text
-                      border: InputBorder.none, // Remove border
+                      hintText: 'Your Problem',
+                      border: InputBorder.none,
                     ),
                   ),
                 ),
@@ -48,7 +48,6 @@ class _MainScreenState extends State<MainScreen> {
               leading: Icon(Icons.edit),
               title: Text('Edit SOS Info'),
               onTap: () {
-                // Handle action
                 Navigator.pushNamed(context, route.editSosInfoScreen);
               },
             ),
@@ -62,10 +61,9 @@ class _MainScreenState extends State<MainScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // SOS Button
               SizedBox(
-                width: 200, // Width of the SOS button
-                height: 200, // Height of the SOS button
+                width: 200,
+                height: 200,
                 child: ElevatedButton(
                   onPressed: () {
                     // Handle SOS action
@@ -73,33 +71,28 @@ class _MainScreenState extends State<MainScreen> {
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100.0), // Make it round
+                        borderRadius: BorderRadius.circular(100.0),
                       ),
                     ),
                     backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(180, 0, 255, 1),), // Using Neon Purple color
                   ),
                   child: Text(
                     'SOS',
-                    style: TextStyle(fontSize: 24), // Adjust font size
+                    style: TextStyle(fontSize: 24),
                   ),
                 ),
               ),
-              SizedBox(height: 20), // Spacer
-              // Find Hospitals Nearby Button
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                 List<dynamic> jsonData = await fetchData();
-                // Store the JSON data
-                // For demonstration, let's just print it
-                print(jsonData);
+                  List<dynamic> jsonData = await fetchData();
+                  print(jsonData);
                 },
                 child: Text('Find Hospitals Nearby'),
               ),
-              SizedBox(height: 10), // Spacer
-              // Find Dispensaries Nearby Button
+              SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  // Handle Find Dispensaries action
                 },
                 child: Text('Find Dispensaries Nearby'),
               ),
@@ -110,8 +103,7 @@ class _MainScreenState extends State<MainScreen> {
       onWillPop: onWillPop,
     );
   }
-   // Function to fetch data from an endpoint
-  // Function to fetch data from an endpoint
+  
   Future<List<dynamic>> fetchData() async {
     final response = await http.get(Uri.parse('http://localhost:3000/api/nearby'));
     print(response.body);

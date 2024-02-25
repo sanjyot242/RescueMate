@@ -20,48 +20,34 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _fetchLocationAndPermissions() async {
-    // Request location and phone permissions
     await _requestPermissions();
 
-    // Check if location service is enabled
     var serviceEnabled = await Location().serviceEnabled();
     if (!serviceEnabled) {
-      // Request to enable location service
       serviceEnabled = await Location().requestService();
       if (!serviceEnabled) {
-        // Location service is still not enabled, handle accordingly
+        _openLocationDeniedDialog();
         return;
       }
     }
 
-    // Fetch current location
     _currentLocation = await Location().getLocation();
     String latitude = _currentLocation!.latitude.toString();
     String longitude = _currentLocation!.longitude.toString();
     SharedPref.setLatitude('Latitude', latitude);
     SharedPref.setLongtitude('Longitude', longitude);
-    // Store current location
-    // You can implement the storage logic here, like using shared preferences
-    // For simplicity, let's just print the location
     print('Current Location: ${_currentLocation!.latitude}, ${_currentLocation!.longitude}');
 
-    // Now you can navigate to the next screen (SOSInfoScreen)
-    ApiUtil.fetchData2();
+    // Fetching hospital and pharmacy data from API
+    ApiUtil.fetchData();
     Navigator.pushNamed(context, route.sosInfoScreen);
   }
 
   Future<void> _requestPermissions() async {
-    // Request location permission
     var locationStatus = await Permission.location.request();
     if (locationStatus.isDenied) {
       _openLocationDeniedDialog();
     }
-
-    // Request phone permission
-    /*var phoneStatus = await Permission.phone.request();
-    if (phoneStatus.isDenied) {
-      _openPhonePermissionDeniedDialog();
-    }*/
   }
 
   @override
@@ -79,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (context) => AlertDialog(
         content: Container(
           constraints: BoxConstraints.tightFor(height: 100.0),
-          child: SingleChildScrollView( // Wrap with SingleChildScrollView
+          child: SingleChildScrollView(
             child: Center(
               child: Column(
                 children: [
@@ -102,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (context) => AlertDialog(
         content: Container(
           constraints: BoxConstraints.tightFor(height: 100.0),
-          child: SingleChildScrollView( // Wrap with SingleChildScrollView
+          child: SingleChildScrollView(
             child: Center(
               child: Column(
                 children: [

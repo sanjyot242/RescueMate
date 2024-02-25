@@ -50,7 +50,7 @@ class _EditSosInfoScreenState extends State<EditSosInfoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit SOS Info'),
-        backgroundColor: Color.fromRGBO(180, 0, 255, 1), // Neon Purple color
+        backgroundColor: Color.fromRGBO(180, 0, 255, 1),
         actions: [
           if (_isEditing)
             IconButton(
@@ -64,7 +64,6 @@ class _EditSosInfoScreenState extends State<EditSosInfoScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Emergency contact text fields
             Expanded(
               child: ListView.builder(
                 itemCount: _emergencyContactCount,
@@ -98,7 +97,7 @@ class _EditSosInfoScreenState extends State<EditSosInfoScreen> {
                 },
               ),
             ),
-            SizedBox(height: 16), // Spacer
+            SizedBox(height: 16),
             if (_isEditing)
               ElevatedButton(
                 onPressed: _saveChanges,

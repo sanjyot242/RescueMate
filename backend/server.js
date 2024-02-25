@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const CLIENT_ID = '42HMMDVZW21BT4HT00CDTJF3MKJRYWMPWKDKS1DZN3WKFHD2';
 const CLIENT_SECRET = 'P0DRNHGWLMAOQMON0KWXWBWLGXVYJXCG4IZ12GJDPATD3CK4';
-const VERSION = '20230224'; // Use the current date in YYYYMMDD format
+const VERSION = '20230224';
 
 
 function formatFoursquareData(results) {
@@ -15,8 +15,8 @@ function formatFoursquareData(results) {
         return {
             name: place.name,
             address: place.location.formatted_address,
-            open_status: interpretOpenStatus(place.closed_bucket), // Custom function to interpret open status
-            phone_number: place.contact?.phone || 'Phone number not available' // Assuming 'contact' field exists
+            open_status: interpretOpenStatus(place.closed_bucket),
+            phone_number: place.contact?.phone || 'Phone number not available'
         };
     });
 }
@@ -29,7 +29,6 @@ function interpretOpenStatus(closedBucket) {
             return 'Probably Open';
         case 'Unsure':
             return 'Open Status Uncertain';
-        // Add more cases as needed based on Foursquare's documentation
         default:
             return 'Open Status Unknown';
     }

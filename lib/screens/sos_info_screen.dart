@@ -14,13 +14,11 @@ class _SosInfoScreenState extends State<SosInfoScreen> {
   @override
   void initState() {
     super.initState();
-    // Initialize the list with an empty controller
     _emergencyContactControllers.add(TextEditingController());
   }
 
   @override
   void dispose() {
-    // Dispose all text editing controllers
     _emergencyContactControllers.forEach((controller) => controller.dispose());
     super.dispose();
   }
@@ -31,7 +29,6 @@ class _SosInfoScreenState extends State<SosInfoScreen> {
       String value = _emergencyContactControllers[i].text;
       await SharedPref.setEmergencyContact(key, value);
     }
-    // Save the count of emergency contacts
     await SharedPref.setEmergencyContactCount('EmergencyContactCount', _emergencyContactControllers.length.toString());
   }
 
@@ -40,14 +37,13 @@ class _SosInfoScreenState extends State<SosInfoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('SOS Information'),
-        backgroundColor: Color.fromRGBO(180, 0, 255, 1), // Neon Purple color
+        backgroundColor: Color.fromRGBO(180, 0, 255, 1),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Emergency contact text fields
             Expanded(
               child: ListView.builder(
                 itemCount: _emergencyContactControllers.length,
@@ -65,7 +61,6 @@ class _SosInfoScreenState extends State<SosInfoScreen> {
                 },
               ),
             ),
-            // Add Emergency Contact button
             ElevatedButton(
               onPressed: _emergencyContactControllers.length < _maxEmergencyContacts
                   ? () {
@@ -76,12 +71,10 @@ class _SosInfoScreenState extends State<SosInfoScreen> {
                   : null,
               child: Text('Add Emergency Contact'),
             ),
-            SizedBox(height: 16), // Spacer
-            // Proceed button
+            SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
                 await _saveEmergencyContacts();
-                // Proceed to the main screen
                 Navigator.pushNamed(context, route.mainScreen);
               },
               child: Text('Proceed'),
