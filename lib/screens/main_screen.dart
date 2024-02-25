@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class MainScreen extends StatefulWidget {
   @override
@@ -72,8 +74,11 @@ class _MainScreenState extends State<MainScreen> {
             SizedBox(height: 20), // Spacer
             // Find Hospitals Nearby Button
             ElevatedButton(
-              onPressed: () {
-                // Handle Find Hospitals action
+              onPressed: () async {
+               List<dynamic> jsonData = await fetchData();
+              // Store the JSON data
+              // For demonstration, let's just print it
+              print(jsonData);
               },
               child: Text('Find Hospitals Nearby'),
             ),
@@ -90,4 +95,18 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+   // Function to fetch data from an endpoint
+  // Function to fetch data from an endpoint
+  Future<List<dynamic>> fetchData() async {
+    final response = await http.get(Uri.parse('http://localhost:3000/api/hospitals/nearby2'));
+    
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response, parse the JSON as a list
+      return json.decode(response.body);
+    } else {
+      // If the server did not return a 200 OK response, throw an exception
+      throw Exception('Failed to load data');
+    }
+  }
+
 }
