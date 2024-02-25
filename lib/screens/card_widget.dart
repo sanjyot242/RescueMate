@@ -11,7 +11,7 @@ class CardExampleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: const Text('Card Sample')),
+        appBar: AppBar(title: const Text('Nearby Hospitals')),
         body: const CardExample(),
       ),
     );
@@ -30,10 +30,10 @@ class CardExample extends StatelessWidget {
           children: <Widget>[
             const ListTile(
               leading: Icon(Icons.album),
-              title: Text('The Enchanted Nightingale'),
-              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+              title: Text('Hospital Name'),
             ),
             Row(
+                
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 TextButton(

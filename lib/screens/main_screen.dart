@@ -86,6 +86,7 @@ class _MainScreenState extends State<MainScreen> {
             // Find Hospitals Nearby Button
             ElevatedButton(
               onPressed: () async {
+                Navigator.pushNamed(context, route.cardScreen);
                List<dynamic> jsonData = await fetchData();
               // Store the JSON data
               // For demonstration, let's just print it
