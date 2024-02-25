@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rescuemate/route.dart' as route;
+import 'package:rescuemate/shared-preferences.dart';
 
 class SosInfoScreen extends StatefulWidget {
   @override
@@ -22,6 +23,14 @@ class _SosInfoScreenState extends State<SosInfoScreen> {
     // Dispose all text editing controllers
     _emergencyContactControllers.forEach((controller) => controller.dispose());
     super.dispose();
+  }
+
+  Future<void> _saveEmergencyContacts() async {
+    for (int i = 0; i < _emergencyContactControllers.length; i++) {
+      String key = 'EmergencyContact${i + 1}';
+      String value = _emergencyContactControllers[i].text;
+      await SharedPref.setEmergencyContact(key, value);
+    }
   }
 
   @override
@@ -68,7 +77,8 @@ class _SosInfoScreenState extends State<SosInfoScreen> {
             SizedBox(height: 16), // Spacer
             // Proceed button
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await _saveEmergencyContacts();
                 // Proceed to the main screen
                 Navigator.pushNamed(context, route.mainScreen);
               },
