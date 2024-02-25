@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:rescuemate/route.dart' as route;
@@ -11,28 +12,96 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromRGBO(180, 0, 255, 1), // Using Neon Purple color
-        elevation: 0, // Remove shadow
-        title: Container(
-          height: 40, // Height of the search bar
-          padding: EdgeInsets.symmetric(horizontal: 16), // Padding for the search bar
-          decoration: BoxDecoration(
-            color: Colors.white, // Background color of the search bar
-            borderRadius: BorderRadius.circular(20), // Rounded corners
-          ),
-          child: Row(
-            children: [
-              Icon(Icons.search), // Search icon on the left
-              SizedBox(width: 8), // Spacer between icon and text field
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Your Problem', // Placeholder text
-                    border: InputBorder.none, // Remove border
+    return WillPopScope(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(180, 0, 255, 1), // Using Neon Purple color
+          elevation: 0, // Remove shadow
+          title: Container(
+            height: 40, // Height of the search bar
+            padding: EdgeInsets.symmetric(horizontal: 16), // Padding for the search bar
+            decoration: BoxDecoration(
+              color: Colors.white, // Background color of the search bar
+              borderRadius: BorderRadius.circular(20), // Rounded corners
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.search), // Search icon on the left
+                SizedBox(width: 8), // Spacer between icon and text field
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Your Problem', // Placeholder text
+                      border: InputBorder.none, // Remove border
+                    ),
                   ),
                 ),
+              ],
+            ),
+          ),
+          actions: [
+        PopupMenuButton(
+      itemBuilder: (BuildContext context) {
+        return [
+          PopupMenuItem(
+            child: ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Edit SOS Info'),
+              onTap: () {
+                // Handle action
+                Navigator.pushNamed(context, route.editSosInfoScreen);
+              },
+            ),
+          ),
+        ];
+      },
+        ),
+      ],
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // SOS Button
+              SizedBox(
+                width: 200, // Width of the SOS button
+                height: 200, // Height of the SOS button
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Handle SOS action
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100.0), // Make it round
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(180, 0, 255, 1),), // Using Neon Purple color
+                  ),
+                  child: Text(
+                    'SOS',
+                    style: TextStyle(fontSize: 24), // Adjust font size
+                  ),
+                ),
+              ),
+              SizedBox(height: 20), // Spacer
+              // Find Hospitals Nearby Button
+              ElevatedButton(
+                onPressed: () async {
+                 List<dynamic> jsonData = await fetchData();
+                // Store the JSON data
+                // For demonstration, let's just print it
+                print(jsonData);
+                },
+                child: Text('Find Hospitals Nearby'),
+              ),
+              SizedBox(height: 10), // Spacer
+              // Find Dispensaries Nearby Button
+              ElevatedButton(
+                onPressed: () {
+                  // Handle Find Dispensaries action
+                },
+                child: Text('Find Dispensaries Nearby'),
               ),
             ],
           ),
@@ -105,6 +174,7 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
       ),
+      onWillPop: onWillPop,
     );
   }
    // Function to fetch data from an endpoint
@@ -121,4 +191,32 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  void _exitApp() {
+    SystemNavigator.pop();
+  }
+
+  Future _openExitDialog() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+            content: Container(
+                constraints: BoxConstraints.tightFor(height: 100.0),
+                child: Center(
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Confirm Exit?',
+                        style: TextStyle(fontSize: 22.0),
+                      ),
+                      const SizedBox(height: 20.0),
+                      ElevatedButton(onPressed: _exitApp, child: Text('Exit'))
+                    ],
+                  ),
+                ))),
+      );
+
+
+  Future<bool> onWillPop() async {
+    await _openExitDialog();
+    return false;
+  }
 }

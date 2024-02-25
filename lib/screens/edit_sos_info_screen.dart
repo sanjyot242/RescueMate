@@ -10,6 +10,7 @@ class _EditSosInfoScreenState extends State<EditSosInfoScreen> {
   List<TextEditingController> _emergencyContactControllers = [];
   int _emergencyContactCount = 0;
   bool _isEditing = false;
+  int _editableIndex = -1;
 
   @override
   void initState() {
@@ -35,13 +36,12 @@ class _EditSosInfoScreenState extends State<EditSosInfoScreen> {
   }
 
   Future<void> _saveChanges() async {
-    for (int i = 0; i < _emergencyContactCount; i++) {
-      String key = 'EmergencyContact${i + 1}';
-      String value = _emergencyContactControllers[i].text;
-      await SharedPref.setEmergencyContact(key, value);
-    }
+    String key = 'EmergencyContact${_editableIndex + 1}';
+    String value = _emergencyContactControllers[_editableIndex].text;
+    await SharedPref.setEmergencyContact(key, value);
     setState(() {
       _isEditing = false;
+      _editableIndex = -1;
     });
   }
 
@@ -51,6 +51,13 @@ class _EditSosInfoScreenState extends State<EditSosInfoScreen> {
       appBar: AppBar(
         title: Text('Edit SOS Info'),
         backgroundColor: Color.fromRGBO(180, 0, 255, 1), // Neon Purple color
+        actions: [
+          if (_isEditing)
+            IconButton(
+              icon: Icon(Icons.save),
+              onPressed: _saveChanges,
+            ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -64,41 +71,39 @@ class _EditSosInfoScreenState extends State<EditSosInfoScreen> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: TextField(
-                      controller: _emergencyContactControllers[index],
-                      decoration: InputDecoration(
-                        labelText: 'Emergency Contact ${index + 1}',
-                        border: OutlineInputBorder(),
-                        suffixIcon: _isEditing
-                            ? IconButton(
-                                icon: Icon(Icons.save),
-                                onPressed: () {
-                                  setState(() {
-                                    _isEditing = false;
-                                  });
-                                  // Save the changes for this text field
-                                  String key = 'EmergencyContact${index + 1}';
-                                  String value = _emergencyContactControllers[index].text;
-                                  SharedPref.setEmergencyContact(key, value);
-                                },
-                              )
-                            : IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
-                                  setState(() {
-                                    _isEditing = true;
-                                  });
-                                  // Enable editing for this text field
-                                  _emergencyContactControllers[index].selection = TextSelection.collapsed(offset: _emergencyContactControllers[index].text.length);
-                                },
-                              ),
-                      ),
-                      enabled: _isEditing,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _emergencyContactControllers[index],
+                            decoration: InputDecoration(
+                              labelText: 'Emergency Contact ${index + 1}',
+                              border: OutlineInputBorder(),
+                            ),
+                            enabled: _isEditing && _editableIndex == index,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            setState(() {
+                              _isEditing = true;
+                              _editableIndex = index;
+                            });
+                          },
+                        ),
+                      ],
                     ),
                   );
                 },
               ),
             ),
+            SizedBox(height: 16), // Spacer
+            if (_isEditing)
+              ElevatedButton(
+                onPressed: _saveChanges,
+                child: Text('Save'),
+              ),
           ],
         ),
       ),
